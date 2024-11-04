@@ -10,15 +10,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Link from 'next/link'
 
 export function Page() {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const isValidUsername = username.length >= 3
+  const isValidEmail = email.length >= 3
   const isValidPassword = password.length >= 6
-  const isFormValid = isValidUsername && isValidPassword
+  const isFormValid = isValidEmail && isValidPassword
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,7 +26,7 @@ export function Page() {
     setError('')
 
     try {
-      const response = await axios.post(`https://serval-dashing-immensely.ngrok-free.app/auth/login`, { username, password })
+      const response = await axios.post(`https://serval-dashing-immensely.ngrok-free.app/auth/login`, { email, password })
       if (response.data.success) {
         router.push('/dashboard') // Redirect to dashboard on successful login
       } else {
@@ -51,15 +51,15 @@ export function Page() {
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input 
-                  id="username" 
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter your username"
+                  id="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
                 />
-                {username && !isValidUsername && (
-                  <p className="text-sm text-red-500">Username must be at least 3 characters</p>
+                {email && !isValidEmail && (
+                  <p className="text-sm text-red-500">Email must be at least 3 characters</p>
                 )}
               </div>
               <div className="flex flex-col space-y-1.5">
