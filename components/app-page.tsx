@@ -26,7 +26,7 @@ export function Page() {
     setError('')
 
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login`, { username, password })
+      const response = await axios.post(`https://serval-dashing-immensely.ngrok-free.app/auth/login`, { username, password })
       if (response.data.success) {
         router.push('/dashboard') // Redirect to dashboard on successful login
       } else {
