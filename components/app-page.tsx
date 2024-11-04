@@ -17,7 +17,7 @@ export function Page() {
   const router = useRouter()
 
   const isValidEmail = email.length >= 3
-  const isValidPassword = password.length >= 6
+  const isValidPassword = password.length >= 3
   const isFormValid = isValidEmail && isValidPassword
 
   const handleSubmit = async (e: React.FormEvent) => {
