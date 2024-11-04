@@ -33,6 +33,7 @@ export function Page() {
         setError('Invalid credentials')
       }
     } catch (error) {
+      console.log(error);
       setError('An error occurred. Please try again.')
     } finally {
       setIsLoading(false)
