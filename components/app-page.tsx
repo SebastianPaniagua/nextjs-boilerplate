@@ -16,8 +16,8 @@ export function Page() {
   const [error, setError] = useState('')
   const router = useRouter()
 
-  const isValidEmail = email.length >= 3
-  const isValidPassword = password.length >= 3
+  const isValidEmail = email.length >= 6
+  const isValidPassword = password.length >= 8
   const isFormValid = isValidEmail && isValidPassword
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,9 +26,12 @@ export function Page() {
     setError('')
 
     try {
+      //const response = await axios.post(`http://localhost:8055/auth/login`, { email, password })
       const response = await axios.post(`https://serval-dashing-immensely.ngrok-free.app/auth/login`, { email, password })
-      if (response.data.success) {
-        router.push('/dashboard') // Redirect to dashboard on successful login
+      if (response.data.data.access_token) {
+        localStorage.setItem('access_token', response.data.data.access_token);
+        localStorage.setItem('refresh_token', response.data.data.refresh_token);
+        router.push('/qrcodereader') // Redirect to dashboard on successful login
       } else {
         setError('Invalid credentials')
       }
@@ -44,8 +47,8 @@ export function Page() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Enter your credentials to access your account</CardDescription>
+          <CardTitle>Ingreso</CardTitle>
+          <CardDescription></CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -56,35 +59,35 @@ export function Page() {
                   id="email" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
+                  placeholder="Ingrese su email"
                 />
                 {email && !isValidEmail && (
-                  <p className="text-sm text-red-500">Email must be at least 3 characters</p>
+                  <p className="text-sm text-red-500">Email must be at least 6 characters</p>
                 )}
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Contrase&ntilde;a</Label>
                 <Input 
                   id="password" 
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="Ingrese su contrase&ntilde;a"
                 />
                 {password && !isValidPassword && (
-                  <p className="text-sm text-red-500">Password must be at least 6 characters</p>
+                  <p className="text-sm text-red-500">Password must be at least 8 characters</p>
                 )}
               </div>
             </div>
             {error && <p className="mt-4 text-sm text-red-500">{error}</p>}
             <Button className="w-full mt-6" type="submit" disabled={!isFormValid || isLoading}>
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Ingresando...' : 'Ingresar'}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Link href="/forgot-password" className="text-sm text-blue-600 hover:underline">
-            Forgot password?
+            &#191;Olvid&#243; contrase&#241;a?
           </Link>
         </CardFooter>
       </Card>
