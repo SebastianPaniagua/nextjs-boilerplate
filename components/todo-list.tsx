@@ -15,6 +15,7 @@ import {
 import { Trash2, QrCode, Eye, EyeOff } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 import { useRouter } from 'next/navigation'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface TodoItem {
   id: number
@@ -93,7 +94,7 @@ export function TodoList() {
       
       // Send POST request to logout endpoint
       //const response = await fetch('http://localhost:8055/auth/logout', {
-        const response = await fetch('https://serval-dashing-immensely.ngrok-free.app/auth/logout', {
+      const response = await fetch('https://serval-dashing-immensely.ngrok-free.app/auth/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -167,6 +168,10 @@ export function TodoList() {
     setProfileOpen(false)
   }
 
+  const handleQrCodeClick = () => {
+    router.push('/qrcodereader')
+  }  
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setTodos(prev => prev.filter(todo => !todo.isDeleting))
@@ -192,9 +197,23 @@ export function TodoList() {
   return (
     <div className="w-full max-w-[600px] mx-auto p-4 sm:p-6">
       <div className="flex justify-between mb-8">
-        <div className="p-2">
-          <QrCode className="h-6 w-6" />
-        </div>
+      <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                className="p-2 h-auto w-auto hover:bg-gray-100 transition-colors duration-200"
+                onClick={handleQrCodeClick}
+              >
+                <QrCode className="h-6 w-6" />
+                <span className="sr-only">QR Code Reader</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Open QR Code Reader</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <div className="flex gap-4">
           <Dialog open={profileOpen} onOpenChange={setProfileOpen}>
             <DialogTrigger asChild>

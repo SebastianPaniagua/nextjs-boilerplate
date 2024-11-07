@@ -32,7 +32,7 @@ export default function Component() {
       
       // Send POST request to logout endpoint
       //const response = await fetch('http://localhost:8055/auth/logout', {
-        const response = await fetch('https://serval-dashing-immensely.ngrok-free.app/auth/logout', {
+      const response = await fetch('https://serval-dashing-immensely.ngrok-free.app/auth/logout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
